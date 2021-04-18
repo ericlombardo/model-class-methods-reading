@@ -5,6 +5,13 @@ class Post < ActiveRecord::Base
   belongs_to :author
 
   #put new code here
+  def self.from_today #posts from current day
+    self.where("created_at >= ? ", Time.zone.today.beginning_of_day)
+  end
+
+  def self.old_news #post not from current day
+    self.where("created_at < ?", Time.zone.today.beginning_of_day)
+  end
 
   private
 
@@ -22,11 +29,4 @@ class Post < ActiveRecord::Base
     self.where(author: author_id)
   end
 
-  def self.from_today #posts from current day
-    self.where("created_at >= ? ", Time.zone.today.beginning_of_day)
-  end
-
-  def self.old_news #post not from current day
-    self.where("created_at < ?", Time.zone.today.beginning_of_day)
-  end
 end
